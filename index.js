@@ -14,8 +14,13 @@ const io = new Server(server,{
 });
 
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+  // console.log('A user connected:', socket.id);
 
+  const {gobalRoom} =socket.handshake.query
+  if(gobalRoom) {
+    socket.join(gobalRoom);
+    console.log(`User ${socket.id} joined room ${gobalRoom}`);
+  }
   // Listen for call request
   socket.on('call-user', ({ to, offer }) => {
     console.log(`Call request from ${socket.id} to ${to}`);
